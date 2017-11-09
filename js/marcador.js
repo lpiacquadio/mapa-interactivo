@@ -11,11 +11,16 @@ marcadorModulo = (function () {
         en la posición pasada por parámetro y mostrarlo en el mapa.
         Este marcador debe tener un título, una animación.
         El marcador que vas a crear debe asignarse a la variable miMarcador */
+        var marcador = new google.maps.Marker({
+          position: ubicacion,
+          map: mapa,
+          animation: google.maps.Animation.DROP
+        })
+        miMarcador = marcador;
   }
 
     // Agrega la dirección del marcador en la lista de Lugares Intermedios
   function agregarDireccionMarcador (marcador) {
-        // console.log(marcador.getPosition().lat() + ',' + marcador.getPosition().lng());
     var marcadorLatLng = new google.maps.LatLng({ lat: marcador.getPosition().lat(), lng: marcador.getPosition().lng() })
     direccionesModulo.agregarDireccion(marcador.getTitle(), marcadorLatLng)
   }
@@ -154,12 +159,9 @@ marcadorModulo = (function () {
     // Llamo a la funcion agregarMarcadoresClicCargarDirecciones() para que marque a los lugares
     // cuando se hace clic en AgregarDirecciones
   function inicializar () {
-        // Muestra marcador cuando se presioná enteren el campo direccion
-    $('#direccion').keypress(function (e) {
-      if (e.keyCode == 13) {
-        marcadorModulo.mostrarMiMarcador()
-      }
-    })
+    if (!existeMiMarcador()) {
+      marcadorModulo.mostrarMiMarcador(posicionCentral)
+    }
     infoVentana = new google.maps.InfoWindow()
     limites = new google.maps.LatLngBounds()
   }
@@ -219,7 +221,6 @@ marcadorModulo = (function () {
     // Marco los lugares cerca de mi posición
   function marcar () {
     borrarMarcadores(marcadores)
-    console.log('lugar: ' + document.getElementById('tipoDeLugar').value)
     if (marcadorModulo.existeMiMarcador()) {
       var miPosicion = marcadorModulo.damePosicion()
     } else {

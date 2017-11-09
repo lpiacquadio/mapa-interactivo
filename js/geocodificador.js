@@ -9,11 +9,18 @@ geocodificadorModulo = (function () {
      y que llame a la función pasada por parámetro con los siguientes parámetros
      dirección: la dirección pasada por parámetro
      coordenada: la ubicación de tipo google.maps.LatLng */
+     geocodificador.geocode({ 'address': direccion }, function(results, status) {
+      if (status == 'OK') {
+        funcionALlamar(direccion, results[0].geometry.location)
+      } else {
+        alert('No se pudo obtener la ubicación: ' + status)
+      }
+     })
   }
 
     // Inicializo el geocoder que obtiene las corrdenadas a partir de una dirección
     // La variable dirección es igual al texto ingresado por el usuario
-    // Llama a la función usaDirecciin para agregarla a los listados y mostrarlo en el mapa
+    // Llama a la función usaDireccion para agregarla a los listados y mostrarlo en el mapa
   function inicializar () {
     var that = this
     geocodificador = new google.maps.Geocoder()

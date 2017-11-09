@@ -92,10 +92,43 @@ direccionesModulo = (function () {
     // Calcula la ruta entre los puntos Desde y Hasta con los puntosIntermedios
     // dependiendo de la formaDeIr que puede ser Caminando, Auto o Bus/Subterraneo/Tren
   function calcularYMostrarRutas () {
-
         /* Completar la función calcularYMostrarRutas , que dependiendo de la forma en que el
          usuario quiere ir de un camino al otro, calcula la ruta entre esas dos posiciones
          y luego muestra la ruta. */
+    
+    var desde = document.getElementById('desde').value
+    var hasta = document.getElementById('hasta').value
+    var comoIr = document.getElementById('comoIr').value
+    var agregar = document.getElementById('agregar').value
+    var puntosIntermedios = []
+
+    $('#puntosIntermedios option:selected').each(function(){
+      puntosIntermedios.push({
+        location: $(this).val()
+      })
+    })
+
+    if(comoIr === 'Auto') {
+      comoIr = google.maps.TravelMode.DRIVING
+    } else if(comoIr === 'Caminando') {
+      comoIr = google.maps.TravelMode.WALKING
+    } else {
+      comoIr = google.maps.TravelMode.TRANSIT
+    }
+
+    var request = {
+      origin: desde,
+      destination: hasta,
+      travelMode: comoIr,
+      waypoints: puntosIntermedios,
+      optimizeWaypoints: true
+    }
+
+    servicioDirecciones.route(request, function(result, status) {
+      if (status == 'OK') {
+        mostradorDirecciones.setDirections(result);
+      }
+    });  
   }
 
   return {
