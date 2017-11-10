@@ -108,6 +108,12 @@ direccionesModulo = (function () {
       })
     })
 
+    marcadorModulo.agregarMarcadorRuta(desde, 'A', true)
+    marcadorModulo.agregarMarcadorRuta(hasta, 'B', true)
+    puntosIntermedios.forEach(function(punto){
+      marcadorModulo.agregarMarcadorRuta(punto.location, '', false)
+    })
+
     if(comoIr === 'Auto') {
       comoIr = google.maps.TravelMode.DRIVING
     } else if(comoIr === 'Caminando') {
@@ -120,8 +126,7 @@ direccionesModulo = (function () {
       origin: desde,
       destination: hasta,
       travelMode: comoIr,
-      waypoints: puntosIntermedios,
-      optimizeWaypoints: true
+      waypoints: puntosIntermedios
     }
 
     servicioDirecciones.route(request, function(result, status) {

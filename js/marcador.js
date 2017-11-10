@@ -187,14 +187,20 @@ marcadorModulo = (function () {
     }
 
     function agregarMarcadorConStreetView (direccion, ubicacion) {
+      var color = zIndice === 2 ? "a" : "blue";
+      var pinImage = new google.maps.MarkerImage("https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-" + color + ".png",
+          new google.maps.Size(25, 35),
+          new google.maps.Point(-2,-4),
+          new google.maps.Point(10, 35));
+
       var marcador = new google.maps.Marker({
         map: mapa,
         position: ubicacion,
         label: letra,
         animation: google.maps.Animation.DROP,
         draggable: false,
-        zIndex: zIndice
-
+        zIndex: zIndice,
+        icon: pinImage
       })
       limites.extend(ubicacion)
       google.maps.event.addListener(marcador, 'click', function () {
